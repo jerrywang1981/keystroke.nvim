@@ -1,13 +1,17 @@
 # keystroke.nvim
+
 Keystroke plugin for NeoVim
 
 # Requirements
 
 * Neovim 0.5+
+* it utilizes vim.on_key function, so the input depends on how vim.on_key works
 
 # Installation
 
 ## packer
+
+* for now, three built-in functions: keystroke sound/keyword tip/key echo pad.
 
 ### Enable keystroke sound
 
@@ -41,6 +45,8 @@ Keystroke plugin for NeoVim
 ```
 ### Enable keyword message tip
 
+* Just an demo, useless, for now two valid keywords: jerry, 1958/06/30
+
 ```lua
   packer.use({
     "jerrywang1981/keystroke.nvim",
@@ -62,6 +68,33 @@ Keystroke plugin for NeoVim
   })
 ```
 
+### Key echo pad
+
+* show a float window at bottom right corner, and show the keys you stroke, you can
+custom by passing options.key_table with key code as key and string as value
+
+```lua
+  packer.use({
+    "jerrywang1981/keystroke.nvim",
+    config = [[
+      require"keystroke".setup({
+        handlers = {
+          -- insert mode
+          ["*"] = {
+            echopad = {
+              callback = require"keystroke.echopad".send,
+              options = {
+                key_table = {
+                  [32] = "<sp>",
+                }
+              }
+            }
+          },
+        }
+      })
+    ]]
+  })
+```
 ### Detail instruction
 ```lua
   packer.use({
