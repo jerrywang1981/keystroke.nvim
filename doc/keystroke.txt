@@ -1,0 +1,215 @@
+*keystroke.txt*           Plugin to help do something in keystroke
+
+==============================================================================
+CONTENTS                                                  *keystroke-contents*
+
+    1.Intro........................................|keystroke-intro|
+    2.Installation.................................|keystroke-installation|
+      2.1 packer...................................|keystroke-ins-packer|
+    3.Setup........................................|keystroke-setup|
+    4.Advanced Setup...............................|keystroke-advanced-setup|
+    5.Commands.....................................|keystroke-commands|
+    6.About........................................|keystroke-about|
+    7.License......................................|keystroke-license|
+
+
+==============================================================================
+1. Intro 					              *keystroke-intro*
+
+KeyStroke.nvim is a lua plugin for NeoVim 0.5+, it utilizes the api |vim.on_key|
+to pass every key to handlers.
+
+Each handlers would be a function which accepts one string as parameter, and
+an optional parameter.
+
+==============================================================================
+2.Installation                                          *keystroke-installation*
+
+You can install the plugin with your favorite plugin manager.
+
+------------------------------------------------------------------------------
+2.1 packer                                                *keystroke-ins-packer*
+
+You can do it with lua code, for example, with the built-in sound handler.
+  >
+    local packer = require("packer")
+    packer.use({
+      "jerrywang1981/keystroke.nvim",
+      config = [[
+        require"keystroke".setup({
+          handlers = {
+            ["i"] = {
+              sound = {
+                callback = require"keystroke.sound".play_sound,
+                options = {
+                  style = "mario"
+                }
+              },
+            },
+          }
+        })
+      ]]
+    })
+<
+
+==============================================================================
+3.Setup                                                        *keystroke-setup*
+
+Setup function to be run by user.Configure how keystroke works.
+------------------------------------------------------------------------------
+keystroke.setup({opts})                                      *keystroke.setup()*
+
+Usage:
+  >
+    require"keystroke".setup({
+        auto_start = false,
+        handlers = {
+          ["i"] = {
+            sound = {
+              callback = require"keystroke.sound".play_sound,
+              options = {
+                style = "mario"
+              }
+            },
+          },
+          ["n"] = {},
+          ["*"] = {}
+        }
+    })
+<
+
+  Valid key for {opts}
+
+  auto_start: ~
+    Whether the handlers would be called or not by default.
+
+    Available options are:
+    - true
+    - false (default)
+
+  handlers: ~
+    The handlers for different mode, refer to |mode()|, it is a table with
+    |mode()| as key and another table with handlers for the mode.
+
+    There are three types of handlers, and only last one is named handler which
+    can be enabled/disabled/toggled with command |:KeyStroke|.
+
+    The mode handlers can be:
+    - function, the function/handler will be called with one string parameter.
+      >
+          handlers = {
+            ["i"] = {
+              require"keystroke.keyword".keyword_message,
+            },
+            ["n"] = {},
+            ["*"] = {}
+          }
+<
+
+    - table, if enable is set, then call `callback` with (string, {options})
+      >
+          handlers = {
+            ["i"] = {
+              {
+                enable = true,
+                callback = require"keystroke.sound".play_sound,
+                options = {
+                  style = "mario"
+                }
+              },
+            },
+          }
+<
+    - key/value named handler. if enable is set, then call `callback`
+      with (string, {options})
+      >
+          handlers = {
+            ["i"] = {
+              sound = {
+                enable = true,
+                callback = require"keystroke.sound".play_sound,
+                options = {
+                  style = "mario"
+                }
+              },
+            },
+          }
+<
+
+
+==============================================================================
+4.Advanced Setup                                      *keystroke-advanced-setup*
+
+If you want to have a handler for all modes, you can use `["*"]`as key.
+
+There are three built-in handlers for now:
+  - sound:
+  >
+   require"keystroke.sound".play_sound
+<
+
+  - keyword (demo):
+  >
+   require"keystroke.keyword".keyword_message
+
+<
+  - echopad:
+  >
+   require"keystroke.echopad".send
+
+
+You can also write your own handler. for example:
+>
+  function(key)
+    print(key)
+  end
+<
+
+==============================================================================
+5.Commands                                                  *keystroke-commands*
+
+:KeyStrokeEnable                                              *:KeyStrokeEnable*
+
+You can enable the plugin with the command.
+
+:KeyStrokeDisable                                            *:KeyStrokeDisable*
+
+You can disable the plugin with the command.
+
+:KeyStrokeToggle                                              *:KeyStrokeToggle*
+
+You can toggle the plugin with the command, when the plugin is enabled, after
+you run the command, it is disabled. when the plugin is diabled, then it is
+enabled.
+
+:KeyStroke                                                          *:KeyStroke*
+
+The command is availabe when the plugin is enabled. and then you can
+enable/disable /toggle anyone of the named handlers.
+
+Please Note: only named handlers can be processed.
+
+There are three subcommands:
+
+`KeyStroke enable xxx`
+`KeyStroke disable xxx`
+`KeyStroke toggle xxx`
+
+From the subcommand name you can tell what it does.
+
+==============================================================================
+6.About 						       *keystroke-about*
+
+The maintainers are:
+  Jerry Wang <jerrywang1981@outlook.com>
+  github: jerrywang1981
+
+Find latest version at:
+  https://github.com/jerrywang1981/keystroke.nvim
+
+==============================================================================
+7.License                                                    *keystroke-license*
+
+keystroke.vim is released under MIT license.
+
+vim:tw=78:ts=8:ft=help:norl:
