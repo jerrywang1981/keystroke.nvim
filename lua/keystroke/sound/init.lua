@@ -108,10 +108,13 @@ end
 local timer = nil
 
 local _play = function(cmd, args)
-	uv.spawn(cmd, {
+	local handle
+	local on_exit = function(code, signal)
+		uv.close(handle)
+	end
+	handle = uv.spawn(cmd, {
 		args = args,
-	}, function(code, signal) -- on exit
-	end)
+	}, on_exit)
 end
 
 M.play_sound = function(key, opts)

@@ -36,8 +36,6 @@ local get_float_win = function()
 	local height = math.ceil(vim.o.lines * scale) - 1
 	local width = math.ceil(vim.o.columns * scale)
 
-	-- local row = math.ceil(vim.o.lines - height / 4)
-	-- local col = math.ceil(vim.o.columns - width / 4)
 	local row = math.ceil(vim.o.lines) - 8
 	local col = math.ceil(vim.o.columns)
 
@@ -64,8 +62,8 @@ local get_float_win = function()
 	vim.cmd("set winblend=20")
 
 	-- add borders
-	local h = "+" .. vim.fn["repeat"]("-", config.width - 2) .. "+"
-	local l = "|" .. vim.fn["repeat"](" ", config.width - 2) .. "|"
+	local h = "+" .. string.rep("-", config.width - 2) .. "+"
+	local l = "|" .. string.rep(" ", config.width - 2) .. "|"
 	local lines = { h }
 	for i = 1, config.height - 2 do
 		lines[i + 1] = l
@@ -103,7 +101,7 @@ local send_to_win = function(msg)
 	local start_col = math.ceil((_bufwinconfig.width - string.len(msg)) / 2)
 	local end_col = start_col + string.len(msg)
 	local current_row = math.ceil(_bufwinconfig.height / 2) - 1
-	vim.api.nvim_buf_set_lines(_bufnr, current_row, current_row + 1, false, { vim.fn["repeat"](" ", start_col) .. msg })
+	vim.api.nvim_buf_set_lines(_bufnr, current_row, current_row + 1, false, { string.rep(" ", start_col) .. msg })
 end
 
 M.send = (function()

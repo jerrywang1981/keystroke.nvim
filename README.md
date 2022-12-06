@@ -162,6 +162,12 @@ KeyStroke disable sound
 KeyStroke toggle sound
 ```
 
+# Help
+
+to get more help
+```
+:help keystroke.txt
+```
 
 # Maintainers
 [@jerrywang1981](https://github.com/jerrywang1981)
