@@ -18,6 +18,8 @@ Keystroke plugin for NeoVim
 * audio files was taken from [vim-keysound](https://github.com/skywind3000/vim-keysound)
 * for now, auto_start is default to false, you need to enable it.
 
+for packer
+
 ```lua
   packer.use({
     "jerrywang1981/keystroke.nvim",
@@ -43,6 +45,33 @@ Keystroke plugin for NeoVim
   })
 
 ```
+
+for lazy.nvim
+
+```lua
+return {
+  "jerrywang1981/keystroke.nvim",
+  -- enabled=false,
+  cmd = "KeyStrokeEnable",
+  config = function()
+    require("keystroke").setup({
+      handlers = {
+        ["i"] = {
+          sound = {
+            callback = require("keystroke.sound").play_sound,
+            options = {
+              style = "typewriter",
+              -- style = "mario",
+            },
+          },
+        },
+        ["*"] = {},
+      },
+    })
+  end,
+}
+```
+
 ### Enable keyword message tip
 
 * Just an demo, useless, for now two valid keywords: jerry, 1958/06/30

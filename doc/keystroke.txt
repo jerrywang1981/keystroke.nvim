@@ -6,6 +6,7 @@ CONTENTS                                                  *keystroke-contents*
     1.Intro........................................|keystroke-intro|
     2.Installation.................................|keystroke-installation|
       2.1 packer...................................|keystroke-ins-packer|
+      2.2 lazy.nvim................................|keystroke-ins-lazy|
     3.Setup........................................|keystroke-setup|
     4.Advanced Setup...............................|keystroke-advanced-setup|
     5.Commands.....................................|keystroke-commands|
@@ -51,6 +52,31 @@ You can do it with lua code, for example, with the built-in sound handler.
       ]]
     })
 <
+2.2 lazy.nvim                                             *keystroke-ins-lazy*
+
+You can do it with lua code, for example, with the built-in sound handler.
+  >
+  return {
+    "jerrywang1981/keystroke.nvim",
+    -- enabled=false,
+    cmd = "KeyStrokeEnable",
+    config = function()
+      require("keystroke").setup({
+        handlers = {
+          ["i"] = {
+            sound = {
+              callback = require("keystroke.sound").play_sound,
+              options = {
+                style = "typewriter",
+                -- style = "mario",
+              },
+            },
+          },
+          ["*"] = {},
+        },
+      })
+    end,
+  }
 
 ==============================================================================
 3.Setup                                                        *keystroke-setup*
