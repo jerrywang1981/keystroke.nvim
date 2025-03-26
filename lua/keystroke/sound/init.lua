@@ -1,4 +1,5 @@
 local vim = vim
+local jit = jit
 local uv = vim.loop
 local path = require("keystroke.path")
 local debounce = require("keystroke.debounce")
@@ -26,7 +27,15 @@ end
 
 local init_sound_param = function()
   if vim.fn.has("sound") == 0 then
-    if vim.fn.executable("afplay") == 1 then
+    if jit.os == "Windows" then
+      function script_path()
+        local str = debug.getinfo(2, "S").source:sub(2)
+        return str:match("(.*/)")
+      end
+
+      sound_cmd = script_path() .. "\\" .. "cmdmp3.exe"
+      sound_ext = "mp3"
+    elseif vim.fn.executable("afplay") == 1 then
       sound_cmd = "afplay"
       sound_ext = "mp3"
     elseif vim.fn.executable("mpg123") == 1 then
