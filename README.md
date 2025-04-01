@@ -11,12 +11,14 @@ Keystroke plugin for NeoVim
 
 ## packer
 
-* for now, three built-in functions: keystroke sound/keyword tip/key echo pad.
+* for now, three built-in functions: keystroke sound/keyword tip (just a toy)/key echo pad (just a toy).
 
 ### Enable keystroke sound
 
 * audio files was taken from [vim-keysound](https://github.com/skywind3000/vim-keysound)
 * for now, auto_start is default to false, you need to enable it.
+* If your neovim is compiled with sound support, it will call play_sound function to play sound
+* If there is no sound support, in windows, it will use the "batteries-included" binary program to play, in Linux, it will try afplay/mpg123/aplay/paplay/cvlc, so make sure to install at least one of these.
 
 for packer
 
@@ -99,6 +101,7 @@ return {
 
 ### Key echo pad
 
+* Just a toy, for more functional plugin, please try to search for other more functional one.
 * show a float window at bottom right corner, and show the keys you stroke, you can
 custom by passing options.key_table with key code as key and string as value
 
